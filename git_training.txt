@@ -1,0 +1,386 @@
+git --version
+
+git config --global user.name <username>
+git config --global user.email <email>
+
+git config --global core.editor
+
+git config --list
+
+config fájlok, amiket listáznak:
+C:\Users\T360-v6-EVOG-s04
+C:\Program Files\Git\etc
+
+új repo létrehozás
+új folder, benne parancs:
+git init
+
+working dir állapota:
+git status
+
+staged - tracked - untracked files
+git add <filename>
+
+elvesz a stage-ből
+git reset <reset>
+git rm --cached <file>
+
+git commit -m "<message>"
+kezdeti branch: master v main (azure pl)
+commit azonosító - első pár karakterét írja ki
+
+.gitignore
+a git ne figyelje a working directoryban
+
+echo '*.tmp' > .gitignore
+git add .gitignore
+git commit -m "add gitignore file"
+
+commit azonosító
+
+IDE
+git gui
+
+különbség a jelenlegi working directory status és a legutolsó commit között
+git diff
+
+git add hello.txt hello2.txt
+
+vissza az előző verzióra
+git restore <file> 
+
+repo history, logok
+
+git log (+commit id)
+commit azonosító, author, date
+
+git show (+commit id)
+diff-ek
+utolsó commit + diffek
+
+segédprogramok - logok nézésére jobb
+git gui (aut.fent)
+	F5
+ 
+gitk (aut.fent, átláthatóbb)
+
+branch kezelés: git branch
+
+git branch
+git branch develop
+
+a branch kb egy címke, ami egy commiton van; ami abból lesz, örökli a címkét
+megnézni:
+git branch
+új branch (develop):
+git branch develop
+
+csillaggal az aktív branch
+
+repoból infót kiszedni, és a megadott állapotot visszaállítani a working directoryba
+git checkout <commit id>
+
+git checkout develop
+a develop branch lesz aktív ~ átváltás
+
+gitk new view:
+mely brancheket mutassa - all local branches
+
+külön változtatások a két branchen - gitk-ban látszik
+sárga bogyó, ahol állunk
+
+régebbi commitot is lehet checkoutolni
+
+F.A.
+
+GPT-3 - szöveggeneráló AI
+GPT-J playground - ingyenes vált.
+
+temp mail
+
+
+merge:
+git merge
+
+ha a master branchnak child-ja a develop, akkor csak fast-forward merging
+git checkout master
+git merge develop
+
+utána a developba is visszamerge a mastert
+
+merge conflict
+
+fix merge conflict, utána újra add és commit
+utána lezajlik a merge
+
+(pastebin, github gist)
+
+merge toolok
+kdiff3
+
+https://pastebin.com/xPLgSXpc
+
+git config --global merge.tool kdiff3
+git config --global mergetool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
+git config --global mergetool.kdiff3.trustExitCode false
+ 
+git config --global diff.guitool kdiff3
+git config --global difftool.kdiff3.path "C:/Program Files/KDiff3/kdiff3.exe"
+git config --global difftool.kdiff3.trustExitCode false
+ 
+#
+git checkout 
+git merge master
+#
+aztán a master branchon merge develop >> conflict
+
+git mergetool
+végigmegy az összes conflictos fájlon
+biztonsági másolatokat készít
+
+A base: ezt megelőző állapot
+B local: master
+C remote: develop
+
+alsó ablakrész a végeredmény fájl, amit szerkeszthetünk
+
+mind3-at be, save, kilép
+.orig fájl törlése
+
+git status: kell egy commit (add most nem kell)
+
+VScode is tud már 3 ágú resolve conflictot
+sourcetree is jó
+
+#FA
+
+feature, hotfix branch
+
+################################
+
+commit törlés
+mindent töröl
+git reset --hard HEAD^
+git reset --hard HEAD~1
+
+ha nincs pusholva
+git rebase -i HEAD~N
+The ~N means rebase the last N commits (N must be a number, for example HEAD~10). Then, you can edit the file that Git presents to you to delete the offending commit. On saving that file, Git will then rewrite all the following commits as if the one you deleted didn't exist.
+
+csak a commitot törli, a munkát nem
+git reset --soft HEAD~1
+
+https://devconnected.com/how-to-git-reset-to-head/
+
+hard reset clears working dir and index
+The “–hard” option is used in order to reset the files of the index (or the staging area) and of the working directory.
+In order to hard reset to the commit right before HEAD, use “git reset” with the “–hard” option and specify HEAD^.
+
+$ git reset --hard HEAD       (going back to HEAD)
+
+$ git reset --hard HEAD^      (going back to the commit before HEAD)
+$ git reset --hard HEAD~1     (equivalent to "^")
+
+$ git reset --hard HEAD~2     (going back two commits before HEAD)
+
+git reset --hard <sha1-commit-id>
+
+To undo a hard reset on Git, use the “git reset” command with the “–hard” option and specify “HEAD@{1}”
+
+$ git reset --hard HEAD@{1}
+
+soft reset does not alter the working dir or index > the differences will be staged instead
+used for combining different commits into one
+
+$ git reset --soft HEAD       (going back to HEAD)
+
+$ git reset --soft HEAD^      (going back to the commit before HEAD)
+$ git reset --soft HEAD~1     (equivalent to "^")
+
+$ git reset --soft HEAD~2     (going back two commits before HEAD)
+
+
+git rebase -i <commit>~1
+This will start the rebase in interactive mode -i at the point just before the commit you want to whack. The editor will start up listing all of the commits since then. Delete the line containing the commit you want to obliterate and save the file. Rebase will do the rest of the work, deleting only that commit, and replaying all of the others back into the log.
+git rebase -i HEAD~1
+
+###
+branch törlés:
+git branch -d <branch>
+
+a kiadott utasítások historyja:
+git reflog
+az összes branchen:
+git reflog --all
+
+###
+rebase
+on master:
+git rebase dev
+
+utána töröl dev
+git branch -d dev
+
+conflict: kb ugyanaz, csak a végén:
+git rebase --continue
+
+egy konkrét commitra
+git rebase -i <id>
+
+wim
+insert: beviteli módra vált
+kitöröl összes sor, csak az ut. nem
+
+:w
+mentés
+:q
+kilép
+
+conflict felold mergetool, continue
+
+megad új commit message, :w :q
+kész
+
+cherry pick
+
+mint a merge, de csak  a kivál. commit tartalmát (vagy annak kivál. részét) hozzuk át, de nem lesz leszármazás
+
+remote működés - github
+létrehoz repo
+clone
+
+git clone https://github.com/homoki/EvoGit.git
+
+remote branchek listája:
+git branch -r
+
+origin branch - ahonnan szárm. a repo - kitüntetett br.
+
+minden infó az origin reporól:
+git remote show origin 
+
+összes br. - a helyiek is:
+git branch -a
+
+HEAD - ahol legelöl jár a kód
+main br. + többi: követő/tracking br.
+
+fetch - sync lefelé
+push - sync felfelé
+
+git fetch
+aut. update-eli
+
+git merge origin/main
+
+git pull = git fetch + git merge
+
+mód. itt lent, aztán push
+
+git push
+
+authentikáció - browser
+
+helyi és remote vált
+git pull merge conflictot ad
+mergetool, commit
+git push
+kész
+
+helyi vált
+fetch
+force push -nagyon rizikós > felülírja a remote-ot
+sima push-t nem engedi, mert a helyi van hátrébb
+
+
+upstream branch - össze kell kötni a fenti br.al-ahova push-t akar
+nem megy a git push magában:
+git push origin develop
+
+pull ugyanígy
+
+push + upstream beállítás:
+git push --set-upstream origin develop
+
+git branch -vv
+git remote show origin
+melyik minek az upstream-e
+
+helyben új branch
+set upstream-mal fent is létrehozza 
+
+utána ezt máshol checkout + pull hozza le
+
+commitok kiemelése:
+tag-ek
+
+git tag -a <tagname>
+message:
+insert, message, esc
+:w :q
+
+git tag -a <tagname> -m "message"
+
+delete tag:
+git tag -d <tagname>
+
+felpusholni:
+git push origin <tagname>
+
+stabil release gyakran kap tag-et
+és zip-ben letölthető így
+
+másik repoban fetch leszedi a tageket:
+git fetch
+csak a tageket leszedni:
+git fetch --tag
+
+stash:
+trackelt fájlokon levő változatások, amik nincsenek kommitolva
+
+git stash 
+lementi a working dir-t a stash-be, a working dir üres lesz
+git stash list
+
+a stash egy verem
+
+kiszedni stashből a working dir-ba:
+git stash pop
+mindig a legutolsót veszi ki
+
+id alapján konkrét változtást is ki lehet szedni
+git stash apply <id>
+törölni egy részt:
+git stash drop <id>
+
+pull request
+
+stratégiák
+
+git flow
+pl
+https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+mono repo:
+sok projekt egyetlen repoban (google ezt csinálja)
+
+viktor.blazskovics@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
