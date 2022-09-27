@@ -1,3 +1,5 @@
 # EvoGit
-modify README.md
-modify again
+
+- modify README.md
+- modify again
+- modify to list
